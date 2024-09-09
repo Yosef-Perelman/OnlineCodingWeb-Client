@@ -1,7 +1,49 @@
 .editor-block {
-    width: 80%; 
+    width: 80%;
     height: 75vh;
     margin: auto;
     margin-top: 20px;
     padding: 10px;
-}
+  }
+  
+  .home-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  .home-page h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+  }
+  
+  .home-page .link-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1.5rem;
+  }
+  
+  .home-page .link-grid a {
+    background-color: #f1f1f1;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    text-align: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  .home-page .link-grid a:hover {
+    background-color: #e5e5e5;
+  }
+  
+  .home-page .link-grid h3 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .home-page .link-grid p {
+    color: #6b7280;
+  }
