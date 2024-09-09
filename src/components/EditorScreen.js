@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { useParams } from 'react-router-dom';
 import Editor from '@monaco-editor/react';
 import io from 'socket.io-client';
 import '../App.css'
@@ -8,8 +9,11 @@ const socket = io('http://localhost:5000');
 const EditorScreen = () => {
 
   const [content, setContent] = useState('');
+  const { codeBlockName } = useParams();
 
-  useEffect(() => { socket.on('updateContent', (updatedContent) => {
+  useEffect(() => { 
+
+        socket.on('updateContent', (updatedContent) => {
             console.log('Received content from server:', updatedContent);
             setContent(updatedContent);
         });
