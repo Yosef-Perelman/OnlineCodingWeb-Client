@@ -12,6 +12,7 @@ const EditorScreen = () => {
   const [students, setStudents ] = useState(0);
   const { codeBlockName } = useParams()
   const [role, setRole] = useState('');
+  const [isSolved, setIsSolved] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => { 
@@ -42,16 +43,10 @@ const EditorScreen = () => {
             setContent(updatedContent);
         });
 
-      //   socket.on('someonejoined', (userId, numStudentsInTheRoom) => {
-      //     console.log(`${userId} join the room`);
-      //     console.log(`num of students in the room: ${numStudentsInTheRoom}`);
-      //     setStudents(numStudentsInTheRoom);
-      //     console.log(`students value after updating: ${students}`);
-      // });
-
-      //   socket.on('someoneDisconnected', (userId) => {
-      //     console.log(`${userId} leave the room`);
-      // });
+         // Handle the correct solution event
+         socket.on('correctSolution', () => {
+          setIsSolved(true);  // Mark as solved
+      });
 
       socket.on('mentorLeft', () => {
         console.log('Mentor left the room. Redirecting to home page.');
@@ -67,10 +62,10 @@ const EditorScreen = () => {
   },[codeBlockName, navigate]);
 
   const handleEdit = (updatedContent) => { 
-    if (role !== 'mentor') {
+    if (role !== 'mentor' && !isSolved) {
       setContent(updatedContent);
       console.log('Sending updated content to server:', updatedContent);
-      socket.emit('edit', updatedContent);
+      socket.emit('edit', updatedContent, codeBlockName);
     }
   };
 
@@ -81,10 +76,18 @@ const EditorScreen = () => {
         onChange={handleEdit} 
         theme="vs-dark" 
         defaultLanguage="javascript" 
-        options={{ readOnly: role === 'mentor' }}
+        options={{ readOnly: role === 'mentor' || isSolved }}
       />;
       <h3>Number of students in the room: {students}</h3>
       <h3>You are connected as: {role}</h3>
+
+      {isSolved && (
+        <div className="solved-message">
+          <span>😊</span>
+          <h2>You are genius!</h2>
+        </div>
+      )}
+
       <Link to="/">Go to Home Page</Link>
       </div>
     );
