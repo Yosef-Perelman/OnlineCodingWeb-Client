@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import Editor from '@monaco-editor/react';
 import io from 'socket.io-client';
 import '../App.css'
@@ -11,6 +11,8 @@ const EditorScreen = () => {
   const [content, setContent] = useState('');
   const [students, setStudents ] = useState(0);
   const { codeBlockName } = useParams()
+  const [role, setRole] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => { 
 
@@ -19,9 +21,10 @@ const EditorScreen = () => {
 
         socket.emit('join', codeBlockName);
 
-        socket.on('roomInfo', ({ roomSize }) => {
+        socket.on('roomInfo', ({ roomSize, isMentor }) => {
           console.log(`Room info received. Users in room: ${roomSize}`);
           setStudents(roomSize);
+          setRole(isMentor ? 'mentor' : 'user');
         });
 
         socket.on('userJoined', ({ socketId, roomSize }) => {
@@ -50,23 +53,39 @@ const EditorScreen = () => {
       //     console.log(`${userId} leave the room`);
       // });
 
+      socket.on('mentorLeft', () => {
+        console.log('Mentor left the room. Redirecting to home page.');
+        socket.disconnect();
+        navigate('/');
+      });
+
         return () => {
           console.log('inside the client return')
           socket.off('updateContent');
           socket.disconnect();
       };
-  },[codeBlockName]);
+  },[codeBlockName, navigate]);
 
   const handleEdit = (updatedContent) => { 
-    setContent(updatedContent);
-    console.log('Sending updated content to server:', updatedContent);
-    socket.emit('edit', updatedContent);
+    if (role !== 'mentor') {
+      setContent(updatedContent);
+      console.log('Sending updated content to server:', updatedContent);
+      socket.emit('edit', updatedContent);
+    }
   };
 
   return (
       <div className="editor-block"> 
-      <Editor value={content} onChange={handleEdit} theme="vs-dark" defaultLanguage="javascript"/>;
+      <Editor 
+        value={content} 
+        onChange={handleEdit} 
+        theme="vs-dark" 
+        defaultLanguage="javascript" 
+        options={{ readOnly: role === 'mentor' }}
+      />;
       <h3>Number of students in the room: {students}</h3>
+      <h3>You are connected as: {role}</h3>
+      <Link to="/">Go to Home Page</Link>
       </div>
     );
   }
