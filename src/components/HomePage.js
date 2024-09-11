@@ -3,10 +3,13 @@ import { Link } from 'react-router-dom';
 import './HomePage.css';
 
 const rooms = [
-  { id: 1, name: 'Basic Example' },
-  { id: 2, name: 'Advanced Example' },
-  { id: 3, name: 'Tutorial Code' },
-  { id: 4, name: 'Sample Project' },
+  { name: 'Basic Example' },
+  { name: 'Advanced Example' },
+  { name: 'Tutorial Code' },
+  { name: 'Basic Function Declaration' },
+  { name: 'Variable Declaration' },
+  { name: 'For Loop' },
+  { name: 'Asynchronous Programming' },
 ];
 
 const HomePage = () => {
@@ -17,7 +20,7 @@ const HomePage = () => {
         <h2 className="subtitle">Choose Code Block</h2>
         <div className="room-grid">
           {rooms.map((room) => (
-            <Link key={room.id} to={`/editor/room${room.id}`} className="room-link">
+            <Link key={room.name} to={`/editor/${room.name}`} className="room-link">
               <h3>{room.name}</h3>
             </Link>
           ))}
