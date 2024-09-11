@@ -7,9 +7,6 @@ Feel free to try it here - https://onlinecodingweb.netlify.app.<br/>
 The client deployed with Netlify and the server deployed with Heroku.<br/>
 Database in MongoDB, where the data of the exercises is found.<br/><br/>
 
-Note: I initially created the server and client in the same repo, but it interferes with the deployment sites, so I split them into two.
-Features<br/><br/>
-
 ### Tech Stack
 - React.js
 - Node.js
@@ -19,12 +16,13 @@ Features<br/><br/>
 - Monaco-Editor
 
 ### Site Flow
-The home page has several links to exercises.
-When a user clicks on one of them - if he is the first to enter the exercise then he is considered the teacher (mentor). It has two meanings:
-A. He can't edit the code.
-B. When he leaves the room all the students in the room are immediately taken to the home page.
+The home page has several links to exercises.<br/>
+When a user clicks on one of them - if he is the first to enter the exercise then he is considered the teacher (mentor).<br/>
+It has two meanings:<br/>
+A. He can't edit the code.<br/>
+B. When he leaves the room all the students in the room are immediately taken to the home page.<br/><br/>
 
-When a user enters the room and is not the first then he is considered a student, and has the ability to edit the code.
+When a user enters the room and is not the first then he is considered a student, and has the ability to edit the code.<br/><br/>
 
-The exercises are actually sections of code from which keywords have been deleted and the student has to complete them in order for the code to work.
+The exercises are actually sections of code from which keywords have been deleted and the student has to complete them in order for the code to work.<br/>
 When the student succeeds in the task, a notification appears and the code can no longer be changed.
