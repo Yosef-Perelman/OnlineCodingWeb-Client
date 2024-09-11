@@ -11,8 +11,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/editor/:codeBlockName" element={<EditorScreen />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/editor/:codeBlockName" element={<EditorScreen />} />
       </Routes>
     </BrowserRouter>
   );

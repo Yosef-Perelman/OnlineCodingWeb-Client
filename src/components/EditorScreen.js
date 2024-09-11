@@ -1,8 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import Editor from '@monaco-editor/react';
 import io from 'socket.io-client';
-import '../App.css'
 import './EditorScreen.css';
 
 let socket = null;
@@ -10,59 +9,62 @@ let socket = null;
 const EditorScreen = () => {
 
   const [content, setContent] = useState('');
-  const [students, setStudents ] = useState(0);
+  const [students, setStudents] = useState(0);
   const { codeBlockName } = useParams()
   const [role, setRole] = useState('');
   const [isSolved, setIsSolved] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => { 
+  useEffect(() => {
 
-        socket = io(process.env.REACT_APP_SOCKET_URL);
-        console.log('Connecting to server');
+    socket = io(process.env.REACT_APP_SOCKET_URL);
+    console.log('Connecting to server');
 
-        socket.emit('join', codeBlockName);
+    socket.emit('join', codeBlockName);
 
-        socket.on('roomInfo', ({ roomSize, isMentor }) => {
-          console.log(`Room info received. Users in room: ${roomSize}`);
-          setStudents(roomSize);
-          setRole(isMentor ? 'mentor' : 'user');
-        });
+    // ***socket.on functions***
 
-        socket.on('userJoined', ({ socketId, roomSize }) => {
-          console.log(`${socketId} joined the room. Total users: ${roomSize}`);
-          setStudents(roomSize);
-        });
+    socket.on('roomInfo', ({ roomSize, isMentor }) => {
+      console.log(`Room info received. Users in room: ${roomSize}`);
+      setStudents(roomSize);
+      setRole(isMentor ? 'mentor' : 'user');
+    });
 
-        socket.on('userLeft', ({ socketId, roomSize }) => {
-          console.log(`${socketId} left the room. Total users: ${roomSize}`);
-          setStudents(roomSize);
-        });
+    socket.on('userJoined', ({ socketId, roomSize }) => {
+      console.log(`${socketId} joined the room. Total users: ${roomSize}`);
+      setStudents(roomSize);
+    });
 
-        socket.on('updateContent', (updatedContent) => {
-            console.log('Received content from server:', updatedContent);
-            setContent(updatedContent);
-        });
+    socket.on('userLeft', ({ socketId, roomSize }) => {
+      console.log(`${socketId} left the room. Total users: ${roomSize}`);
+      setStudents(roomSize);
+    });
 
-         // Handle the correct solution event
-         socket.on('correctSolution', () => {
-          setIsSolved(true);  // Mark as solved
-      });
+    socket.on('updateContent', (updatedContent) => {
+      console.log('Received content from server:', updatedContent);
+      setContent(updatedContent);
+    });
 
-      socket.on('mentorLeft', () => {
-        console.log('Mentor left the room. Redirecting to home page.');
-        socket.disconnect();
-        navigate('/');
-      });
+    socket.on('correctSolution', () => {
+      setIsSolved(true);
+    });
 
-        return () => {
-          console.log('inside the client return')
-          socket.off('updateContent');
-          socket.disconnect();
-      };
-  },[codeBlockName, navigate]);
+    socket.on('mentorLeft', () => {
+      console.log('Mentor left the room. Redirecting to home page.');
+      socket.disconnect();
+      navigate('/');
+    });
 
-  const handleEdit = (updatedContent) => { 
+    // ***End of socket.on functions***
+
+    return () => {
+      console.log('inside the client return')
+      socket.off('updateContent');
+      socket.disconnect();
+    };
+  }, [codeBlockName, navigate]);
+
+  const handleEdit = (updatedContent) => {
     if (role !== 'mentor' && !isSolved) {
       setContent(updatedContent);
       console.log('Sending updated content to server:', updatedContent);
@@ -73,7 +75,7 @@ const EditorScreen = () => {
   return (
     <div className="editor-page">
       <div className="content-wrapper editor-wrapper">
-      <div className="info-section">
+        <div className="info-section">
           <h1>{codeBlockName}</h1>
           {role === 'mentor' ? (
             <>
@@ -108,6 +110,6 @@ const EditorScreen = () => {
       </div>
     </div>
   );
-  }
+}
 
 export default EditorScreen;
