@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import Editor from '@monaco-editor/react';
 import io from 'socket.io-client';
 import '../App.css'
+import './EditorScreen.css';
 
 let socket = null;
 
@@ -70,30 +71,43 @@ const EditorScreen = () => {
   };
 
   return (
-      <div className="editor-block"> 
-      <Editor 
-        value={content} 
-        onChange={handleEdit} 
-        theme="vs-dark" 
-        defaultLanguage="javascript" 
-        options={{ readOnly: role === 'mentor' || isSolved }}
-      />;
-
-      {isSolved && (
-        <div className="solved-message">
-          <span>😊</span>
-          <h2>You are genius!</h2>
+    <div className="editor-page">
+      <div className="content-wrapper editor-wrapper">
+      <div className="info-section">
+          <h1>{codeBlockName}</h1>
+          {role === 'mentor' ? (
+            <>
+              <p>You are connected as <span className="highlight mentor">mentor</span></p>
+              <p>Good day Tom!</p>
+            </>
+          ) : (
+            <>
+              <p>You are connected as <span className="highlight student">student</span></p>
+              <p>Complete the missing words wherever an underscore appears so that the code is correct</p>
+            </>
+          )}
+          {isSolved && (
+            <>
+              <p>That's right! Well done!</p>
+              <div className="smiley">😊</div>
+            </>
+          )}
+          <p className="student-count">Number of students: {students - 1}</p>
+          <Link to="/" className="home-link">Go to Home Page</Link>
         </div>
-      )}
-      
-      <h3>Number of students in the room: {students}</h3>
-      <h3>You are connected as: {role}</h3>
 
-      
-
-      <Link to="/">Go to Home Page</Link>
+        <div className="editor-section">
+          <Editor
+            value={content}
+            onChange={handleEdit}
+            theme="vs-dark"
+            defaultLanguage="javascript"
+            options={{ readOnly: role === 'mentor' || isSolved }}
+          />
+        </div>
       </div>
-    );
+    </div>
+  );
   }
 
 export default EditorScreen;
