@@ -18,7 +18,7 @@ const EditorScreen = () => {
 
   useEffect(() => { 
 
-        socket = io('http://localhost:5000');
+        socket = io(process.env.REACT_APP_SOCKET_URL);
         console.log('Connecting to server');
 
         socket.emit('join', codeBlockName);

@@ -1,16 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './HomePage.css';
-
-const rooms = [
-  { name: 'Basic Example' },
-  { name: 'Advanced Example' },
-  { name: 'Tutorial Code' },
-  { name: 'Basic Function Declaration' },
-  { name: 'Variable Declaration' },
-  { name: 'For Loop' },
-  { name: 'Asynchronous Programming' },
-];
+import { rooms } from '../Config'
 
 const HomePage = () => {
   return (

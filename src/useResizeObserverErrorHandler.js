@@ -1,4 +1,3 @@
-// In a new file, e.g., useResizeObserverErrorHandler.js
 import { useEffect } from 'react';
 
 function useResizeObserverErrorHandler() {
