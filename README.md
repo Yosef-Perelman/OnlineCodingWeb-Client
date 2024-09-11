@@ -1,22 +1,22 @@
 # Online Coding Web
 ### Introduction
-This project is the client part of a Fullstack website I created for learning JS for beginners.
-The link to the server: https://github.com/Yosef-Perelman/OnlineCodingWeb-Server.
-The site has basic programming exercises in JS language.
-Feel free to try it here - https://onlinecodingweb.netlify.app.
-The client deployed with Netlify and the server deployed with Heroku.
-Database in MongoDB, where the data of the exercises is found.
+This project is the client part of a Fullstack website I created for learning JS for beginners.<br/>
+The link to the server: https://github.com/Yosef-Perelman/OnlineCodingWeb-Server.<br/>
+The site has basic programming exercises in JS language.<br/>
+Feel free to try it here - https://onlinecodingweb.netlify.app.<br/>
+The client deployed with Netlify and the server deployed with Heroku.<br/>
+Database in MongoDB, where the data of the exercises is found.<br/><br/>
 
 Note: I initially created the server and client in the same repo, but it interferes with the deployment sites, so I split them into two.
-Features
+Features<br/><br/>
 
 ### Tech Stack
-React.js
-Node.js
-Express.js
-MongoDB
-Socket.io
-Monaco-Editor
+- React.js
+- Node.js
+- Express.js
+- MongoDB
+- Socket.io
+- Monaco-Editor
 
 ### Site Flow
 The home page has several links to exercises.
