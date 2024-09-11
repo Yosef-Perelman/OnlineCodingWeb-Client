@@ -10,7 +10,7 @@ const EditorScreen = () => {
 
   const [content, setContent] = useState(''); // The code
   const [students, setStudents] = useState(0); // Number of students in the room
-  const { codeBlockName } = useParams();
+  const { codeBlockName } = useParams()
   const [role, setRole] = useState(''); // mentor or student
   const [isSolved, setIsSolved] = useState(false);
   const navigate = useNavigate();
