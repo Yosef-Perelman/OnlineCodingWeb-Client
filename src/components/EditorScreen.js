@@ -78,8 +78,6 @@ const EditorScreen = () => {
         defaultLanguage="javascript" 
         options={{ readOnly: role === 'mentor' || isSolved }}
       />;
-      <h3>Number of students in the room: {students}</h3>
-      <h3>You are connected as: {role}</h3>
 
       {isSolved && (
         <div className="solved-message">
@@ -87,6 +85,11 @@ const EditorScreen = () => {
           <h2>You are genius!</h2>
         </div>
       )}
+      
+      <h3>Number of students in the room: {students}</h3>
+      <h3>You are connected as: {role}</h3>
+
+      
 
       <Link to="/">Go to Home Page</Link>
       </div>
