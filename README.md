@@ -20,7 +20,7 @@ The home page has several links to exercises.<br/>
 When a user clicks on one of them - if he is the first to enter the exercise then he is considered the teacher (mentor).<br/>
 It has two meanings:<br/>
 A. He can't edit the code.<br/>
-B. When he leaves the room all the students are immediately taken to the home page.<br/><br/>
+B. When he leaves the room all the students are immediately taken to the home page.<br/>
 
 
 When a user enters the room and is not the first then he is considered a student and can edit the code.<br/>
