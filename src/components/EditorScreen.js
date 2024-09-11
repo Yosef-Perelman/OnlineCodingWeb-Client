@@ -12,7 +12,6 @@ const EditorScreen = () => {
   const [students, setStudents] = useState(0); // Number of students in the room
   const { codeBlockName } = useParams();
   const [role, setRole] = useState(''); // mentor or student
-  const [explanation, setExplanation] = useState('');
   const [isSolved, setIsSolved] = useState(false);
   const navigate = useNavigate();
 
@@ -25,10 +24,9 @@ const EditorScreen = () => {
     socket.emit('join', codeBlockName);
 
     // Get the current content of the editor and the role
-    socket.on('roomInfo', ({ roomSize, isMentor, explanation }) => {
+    socket.on('roomInfo', ({ roomSize, isMentor }) => {
       setStudents(roomSize);
       setRole(isMentor ? 'mentor' : 'user');
-      setExplanation(explanation);
     });
 
     // Get the socketId for future use
@@ -73,7 +71,7 @@ const EditorScreen = () => {
           ) : (
             <>
               <p>You are connected as <span className="highlight student">student</span></p>
-              <p>{explanation}</p>
+              <p>Complete the missing keywords to make the code work!</p>
             </>
           )}
           {isSolved && (
