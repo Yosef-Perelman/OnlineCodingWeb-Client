@@ -8,66 +8,52 @@ let socket = null;
 
 const EditorScreen = () => {
 
-  const [content, setContent] = useState('');
-  const [students, setStudents] = useState(0);
+  const [content, setContent] = useState(''); // The code
+  const [students, setStudents] = useState(0); // Number of students in the room
   const { codeBlockName } = useParams()
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState(''); // mentor or student
   const [isSolved, setIsSolved] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
 
+    // Connecting to the server
+    console.log('Connecting to the server.')
     socket = io(process.env.REACT_APP_SOCKET_URL);
-    console.log('Connecting to server');
 
     socket.emit('join', codeBlockName);
 
-    // ***socket.on functions***
-
+    // Get the current content of the editor and the role
     socket.on('roomInfo', ({ roomSize, isMentor }) => {
-      console.log(`Room info received. Users in room: ${roomSize}`);
       setStudents(roomSize);
       setRole(isMentor ? 'mentor' : 'user');
     });
 
-    socket.on('userJoined', ({ socketId, roomSize }) => {
-      console.log(`${socketId} joined the room. Total users: ${roomSize}`);
-      setStudents(roomSize);
-    });
+    // Get the socketId for future use
+    socket.on('userJoined', ({ socketId, roomSize }) => { setStudents(roomSize); });
 
-    socket.on('userLeft', ({ socketId, roomSize }) => {
-      console.log(`${socketId} left the room. Total users: ${roomSize}`);
-      setStudents(roomSize);
-    });
+    // Get the socketId for future use
+    socket.on('userLeft', ({ socketId, roomSize }) => { setStudents(roomSize); });
 
-    socket.on('updateContent', (updatedContent) => {
-      console.log('Received content from server:', updatedContent);
-      setContent(updatedContent);
-    });
+    socket.on('updateContent', (updatedContent) => { setContent(updatedContent); });
 
-    socket.on('correctSolution', () => {
-      setIsSolved(true);
-    });
+    socket.on('correctSolution', () => { setIsSolved(true); });
 
     socket.on('mentorLeft', () => {
-      console.log('Mentor left the room. Redirecting to home page.');
       socket.disconnect();
       navigate('/');
     });
 
-    // ***End of socket.on functions***
-
     return () => {
-      console.log('inside the client return')
-      socket.off('updateContent');
+      console.log('Disconnecting from the server.')
       socket.disconnect();
     };
   }, [codeBlockName, navigate]);
 
+
   const handleEdit = (updatedContent) => {
     if (role !== 'mentor' && !isSolved) {
       setContent(updatedContent);
-      console.log('Sending updated content to server:', updatedContent);
       socket.emit('edit', updatedContent, codeBlockName);
     }
   };
