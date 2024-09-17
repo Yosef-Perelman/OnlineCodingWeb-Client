@@ -2,9 +2,9 @@
 ## Introduction
 This project is the client part of a Fullstack website I created for learning JS for beginners.<br/>
 The link to the server is https://github.com/Yosef-Perelman/OnlineCodingWeb-Server.<br/><br/>
-The site has basic programming exercises in JS language.<br/>
-Feel free to try it here - https://onlinecodingweb.netlify.app.<br/><br/>
-The client deployed with Netlify and the server deployed with Heroku.<br/>
+
+The site has basic programming exercises in JS language.<br/><br/>
+
 The database is in MongoDB, where the data for the exercises is found.<br/>
 
 ## Tech Stack
