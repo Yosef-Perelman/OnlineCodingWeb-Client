@@ -7,36 +7,29 @@ import './EditorScreen.css';
 let socket = null;
 
 const EditorScreen = () => {
-
   const [content, setContent] = useState(''); // The code
   const [students, setStudents] = useState(0); // Number of students in the room
   const { codeBlockName } = useParams()
   const [role, setRole] = useState(''); // mentor or student
   const [isSolved, setIsSolved] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // New loading state
   const navigate = useNavigate();
 
   useEffect(() => {
-
-    // Connecting to the server
     console.log('Connecting to the server.')
     socket = io(process.env.REACT_APP_SOCKET_URL);
 
     socket.emit('join', codeBlockName);
 
-    // Get the current content of the editor and the role
     socket.on('roomInfo', ({ roomSize, isMentor }) => {
       setStudents(roomSize);
       setRole(isMentor ? 'mentor' : 'user');
+      setIsLoading(false); // Set loading to false once we receive the role
     });
 
-    // Get the socketId for future use
     socket.on('userJoined', ({ socketId, roomSize }) => { setStudents(roomSize); });
-
-    // Get the socketId for future use
     socket.on('userLeft', ({ socketId, roomSize }) => { setStudents(roomSize); });
-
     socket.on('updateContent', (updatedContent) => { setContent(updatedContent); });
-
     socket.on('correctSolution', () => { setIsSolved(true); });
 
     socket.on('mentorLeft', () => {
@@ -50,7 +43,6 @@ const EditorScreen = () => {
     };
   }, [codeBlockName, navigate]);
 
-
   const handleEdit = (updatedContent) => {
     if (role !== 'mentor' && !isSolved) {
       setContent(updatedContent);
@@ -58,6 +50,18 @@ const EditorScreen = () => {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="editor-page">
+        <div className="content-wrapper editor-wrapper">
+          <div className="loading-indicator">
+            <div className="loading-spinner"></div>
+            <p>Loading editor...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="editor-page">
       <div className="content-wrapper editor-wrapper">
@@ -66,7 +70,6 @@ const EditorScreen = () => {
           {role === 'mentor' ? (
             <>
               <p>You are connected as <span className="highlight mentor">mentor</span></p>
-              
             </>
           ) : (
             <>
