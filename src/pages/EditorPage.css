@@ -1,0 +1,35 @@
+/* Background and container styling */
+.editor-page {
+    background-color: black;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+.editor-wrapper {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 30px;
+  width: 90%;
+  max-width: 1200px;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 20px;
+  box-shadow: 0 0 50px rgba(255, 255, 255, 0.2);
+  max-height: 90vh;
+  overflow: hidden;
+}
+
+/* Editor section */
+.editor-section {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Monaco Editor specific styling */
+.monaco-editor {
+  max-height: 70vh;
+}
